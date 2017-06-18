@@ -9,7 +9,7 @@
 with open("share.csv", 'r') as f:
     headers = next(f)
     for line in f:
-        line = line.strip() # strip of wite spaces
+        line = line.strip() # strip of white spaces
         parts = line.split(',')
         parts[0] = parts[0].strip('"')
         parts[1] = parts[1].strip('"')
