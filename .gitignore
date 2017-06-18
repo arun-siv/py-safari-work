@@ -1,2 +1,2 @@
-"./*.csv"
-"./scheduled.txt"
+*.csv
+*.txt
