@@ -4,10 +4,11 @@ We need to handle exception for data that is missing etc.
 '''
 import csv 
 import glob
-def port_csvreader(filename, error="warn"):
+def read_portfolio(filename, error="silent"):
     if error not in  {'warn', 'raise', 'silent'}:
         raise ValueError("error must be one of 'warn','raise','silent'")
-    total = 0.0
+    #total = 0.0
+    portfolio = []
     with open(filename, 'r') as f:
         rows = csv.reader(f)
         headers = next(rows) # skip the header row
@@ -25,13 +26,22 @@ def port_csvreader(filename, error="warn"):
                     pass
                 continue # skips
             #print(row)
-            total += row[2] * row[3]
+            record = {
+                "name" : row[0],
+                "date": row[1],
+                "shares": row[2],
+                "price": row[3]
+            }
+            portfolio.append(record)
+            #total += row[2] * row[3]
 
-    return total
+    return portfolio
 
-shares = glob.glob('./*.csv')
-for share in shares:
-    print("The file name is {} and the portfolio cost is {}".format(share, port_csvreader(share, error="silent")))
 
-#print(shares)
-#print("Total Portfolio cost: {}".format(port_csvreader("share.csv")))
+portfolio = read_portfolio("share.csv")
+
+total = sum([holding['shares'] * holding['price'] for holding in portfolio])
+print(total)
+
+more100 = sum([holding['shares'] * holding['price'] for holding in portfolio if holding['shares'] > 100])
+print(more100)
